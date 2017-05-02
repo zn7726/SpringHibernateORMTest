@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -28,7 +29,8 @@ public class Employee implements Serializable {
 	
 	private String name;
 	
-	@ManyToOne
+	// default(if not defined) no cascade operations will be triggered 
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE}) // do not delete supervisor
 	private Employee supervisor;
 	
 	// columns in Address table will be added/embedded in Employee table

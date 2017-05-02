@@ -54,4 +54,22 @@ public class EmployeeController {
 				
 		return "supervior name is: " + emp.getSupervisor().getName();
 	}
+	
+	@RequestMapping(value="/build", method=RequestMethod.GET)
+	public @ResponseBody String createEmpWithSupervisor(){
+		
+		// return employeeRepo.findOne(id);
+		Employee emp = employeeRepo.findOne(1);
+		
+		Employee sup = new Employee();
+		sup.setName("a supervisor");
+
+		emp.setSupervisor(sup);
+		
+		employeeRepo.save(emp);
+		
+		return "supervior name is: (" + emp.getSupervisor().getId() + ") - " + emp.getSupervisor().getName();
+	}
+	
+
 }
