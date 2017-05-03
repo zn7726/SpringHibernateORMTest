@@ -4,8 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.springtest.ormtest.entities.Employee;
+import com.springtest.ormtest.entities.matchgame.Match;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
-	public Employee findByName(String name);
+public interface MatchRepository extends JpaRepository<Match, Integer>{
+	
 }
