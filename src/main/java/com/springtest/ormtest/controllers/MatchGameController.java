@@ -10,6 +10,7 @@ import com.springtest.ormtest.entities.matchgame.GameScore;
 import com.springtest.ormtest.entities.matchgame.Match;
 import com.springtest.ormtest.entities.matchgame.Player;
 import com.springtest.ormtest.repos.MatchRepository;
+import com.springtest.ormtest.repos.PlayerRepository;
 
 @RestController
 @RequestMapping("/match")
@@ -18,11 +19,21 @@ public class MatchGameController {
 	@Autowired
 	private MatchRepository matchRepo;
 	
+	@Autowired
+	private PlayerRepository playerRepo;
+	
 	@RequestMapping(value="/create", method=RequestMethod.GET)
 	public Match createMatch(){
+		final String player1Name = "Player 1";
+		final String player2Name = "Player 2";
 		
-		Player player1 = new Player("player 1");
-		Player player2 = new Player("player 2");
+		Player player1 = playerRepo.findByPlayerName(player1Name);
+		if(player1 == null)
+			player1 = new Player("player 1");
+		
+		Player player2 = playerRepo.findByPlayerName(player2Name);
+		if(player2 == null)
+			player2 = new Player("player 2");
 		
 		GameScore gs1 = new GameScore(player1, 21);
 		GameScore gs2 = new GameScore(player2, 1);
