@@ -1,15 +1,10 @@
 package com.springtest.ormtest.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 @Entity
 @Table(name="customers")
 public class Customer {
@@ -32,9 +27,20 @@ public class Customer {
 		name="customers_products",
 		joinColumns=@JoinColumn(name="customer_id"),	// new column name to ref ID in this table
 		inverseJoinColumns=@JoinColumn(name="product_id")	// new column name to ref ID of the other table
-	)	
+	)
 	private Set<Products> boughtProducts;	// bought
-	
+
+	@ElementCollection
+	@CollectionTable(name="CustomerGroupJoin", joinColumns={@JoinColumn(name="customerId")})
+	private Set<GroupedCustomer> customerGroups = new HashSet<>();
+
+	public Customer(String name) {
+		this.name = name;
+	}
+
+	public Customer() {
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -74,6 +80,16 @@ public class Customer {
 	public void setBoughtProducts(Set<Products> boughtProducts) {
 		this.boughtProducts = boughtProducts;
 	}
-	
-	
+
+	public Set<GroupedCustomer> getCustomerGroups() {
+		return customerGroups;
+	}
+
+	public void setCustomerGroups(Set<GroupedCustomer> customerGroups) {
+		this.customerGroups = customerGroups;
+	}
+
+	public void addGroup(GroupedCustomer gc) {
+		this.customerGroups.add(gc);
+	}
 }
